@@ -1,4 +1,4 @@
-# School Database
+ # School Database
 
 Base de datos PostgreSQL para el sistema de colegio.
 
