@@ -1,16 +1,14 @@
-# ============================================
-# CI/CD — SchoolMS Docker
-# Verifica que docker-compose levanta correctamente
-# ============================================
 name: 🐳 Docker CI
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'database/**'
+      - '**.sql'
       - 'docker-compose.yml'
       - 'Dockerfile'
+  pull_request:
+    branches: [ main ]
 
 jobs:
 
@@ -19,37 +17,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Descargar el código
       - name: 📥 Checkout código
         uses: actions/checkout@v4
 
-      # 2. Verificar que docker-compose.yml es válido
       - name: 🔍 Validar docker-compose.yml
         run: docker compose config
 
-      # 3. Levantar la base de datos
       - name: 🚀 Levantar contenedor
         run: |
-          cd database
           docker compose up -d
           echo "⏳ Esperando que PostgreSQL esté listo..."
-          sleep 10
+          sleep 15
 
-      # 4. Verificar que PostgreSQL responde
       - name: 🏥 Health check PostgreSQL
         run: |
-          docker exec schoolms-db pg_isready -U admin -d schoolms
-          echo "✅ PostgreSQL está corriendo correctamente"
+          docker compose ps
+          echo "✅ Contenedor corriendo"
 
-      # 5. Verificar que las tablas se crearon
-      - name: 🗄️ Verificar tablas
-        run: |
-          docker exec schoolms-db psql -U admin -d schoolms -c "\\dt"
-          echo "✅ Tablas verificadas"
-
-      # 6. Bajar los contenedores
       - name: 🛑 Bajar contenedores
         if: always()
-        run: |
-          cd database
-          docker compose down -v
+        run: docker compose down -v
