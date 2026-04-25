@@ -1,0 +1,19 @@
+-- ================================================
+-- COLEGIO - DML (Data Manipulation Language)
+-- Datos iniciales obligatorios
+-- ================================================
+
+-- 2 Profesores
+INSERT INTO teachers (name, email, subject, phone) VALUES
+    ('Andrés Martínez', 'andres.martinez@colegio.edu', 'Matemáticas', '3101112233'),
+    ('Patricia López',  'patricia.lopez@colegio.edu',  'Español',     '3209998877');
+
+-- 2 Estudiantes
+INSERT INTO students (name, email, grade, birth_date) VALUES
+    ('Camila Torres',  'camila.torres@estudiante.edu',  '10A', '2009-03-15'),
+    ('Miguel Herrera', 'miguel.herrera@estudiante.edu', '11B', '2008-07-22');
+
+-- 2 Matrículas
+INSERT INTO enrollments (student_id, teacher_id, enrolled_at, status) VALUES
+    (1, 1, CURRENT_DATE, 'active'),
+    (2, 2, CURRENT_DATE, 'active');
